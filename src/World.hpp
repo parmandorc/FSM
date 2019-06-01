@@ -4,6 +4,7 @@
 
 
 class Entity;
+class GameSystem;
 
 class World
 {
@@ -22,6 +23,10 @@ private:
 	void LoadEntities();
 	void UnloadEntities();
 	
+	void LoadGameSystems();
+	void UnloadGameSystems();
+	
 private:
 	std::vector<Entity*> mEntityList;
+	std::vector<GameSystem*> mGameSystemList;
 };
