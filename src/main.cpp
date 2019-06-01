@@ -1,3 +1,5 @@
+#include "World.hpp"
+
 #include <chrono>
 #include <csignal>
 #include <iostream>
@@ -15,14 +17,18 @@ int main(int argc, const char* argv[])
 {
 	std::signal(SIGINT, HandleInterruptSignal);
 	
+	World world;
+	world.Load();
+	
 	while (lIsRunning)
 	{
-		std::cout << "Running..." << std::endl;
+		world.Update();
 		
 		static const std::chrono::milliseconds waitTimeBetweenFrames(1000);
 		std::this_thread::sleep_for(waitTimeBetweenFrames);
 	}
 	
+	world.Unload();
 	return 0;
 }
 
