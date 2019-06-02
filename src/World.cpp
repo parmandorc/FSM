@@ -4,8 +4,8 @@
 #include "Entity.hpp"
 #include "GameSystem.hpp"
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 
 World::World()
