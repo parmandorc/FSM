@@ -1,6 +1,9 @@
 #include "FSMStateContainer.hpp"
 
+#include "FSMIdleState.hpp"
+#include "FSMPatrolState.hpp"
 #include "FSMState.hpp"
+#include "FSMUseObjectState.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -9,6 +12,10 @@
 void FSMStateContainer::Load()
 {
 	std::cout << "Registering states" << std::endl;
+	
+	RegisterState<FSMIdleState>();
+	RegisterState<FSMPatrolState>();
+	RegisterState<FSMUseObjectState>();
 }
 
 template<typename StateType>
