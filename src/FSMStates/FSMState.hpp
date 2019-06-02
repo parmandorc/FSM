@@ -5,6 +5,12 @@
 
 class Entity;
 
+// This is the base class for all states to be used by the FSMs
+// Since only one single instance exists of each state, which is shared by
+// 		all entities, the derived state objects themselves should remain state-less.
+//		All functions that drive state logic receive a reference to the
+//		entity that is being updated, so that any entity-specific state
+//		data can be saved in the entity itself (or its blackboard).
 class FSMState
 {
 public:
