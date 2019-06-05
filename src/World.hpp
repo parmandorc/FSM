@@ -5,6 +5,7 @@
 
 class Entity;
 class GameSystem;
+class RandomGenerator;
 
 class World
 {
@@ -19,6 +20,8 @@ public:
 	unsigned int GetEntitiesCount() const;
 	const Entity& GetEntityByIndex(unsigned int pIndex) const;
 	
+	RandomGenerator& GetRandomGenerator() const;
+	
 private:
 	void LoadEntities();
 	void UnloadEntities();
@@ -29,4 +32,5 @@ private:
 private:
 	std::vector<Entity*> mEntityList;
 	std::vector<GameSystem*> mGameSystemList;
+	RandomGenerator* mRandomGenerator;
 };

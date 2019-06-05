@@ -3,6 +3,7 @@
 #include "BehaviorSystem.hpp"
 #include "Entity.hpp"
 #include "GameSystem.hpp"
+#include "RandomGenerator.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -11,11 +12,16 @@
 World::World()
 {
 	std::cout << "Creating world" << std::endl;
+	
+	mRandomGenerator = new RandomGenerator();
 }
 
 World::~World()
 {
 	std::cout << "Destroying world" << std::endl;
+	
+	delete mRandomGenerator;
+	mRandomGenerator = nullptr;
 }
 
 void World::Load()
@@ -95,4 +101,10 @@ const Entity& World::GetEntityByIndex(unsigned int pIndex) const
 {
 	assert(pIndex < GetEntitiesCount() && "Index out of bounds");
 	return *mEntityList[pIndex];
+}
+
+RandomGenerator& World::GetRandomGenerator() const
+{
+	assert(mRandomGenerator != nullptr && "Tried to get random generator but it was null");
+	return *mRandomGenerator;
 }
