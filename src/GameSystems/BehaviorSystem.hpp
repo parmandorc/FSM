@@ -3,6 +3,7 @@
 #include "GameSystem.hpp"
 
 
+class FSM;
 class FSMStateContainer;
 class World;
 
@@ -17,5 +18,6 @@ public:
 	void Update() override;
 	
 private:
+	FSM* mMainFSM;
 	FSMStateContainer* mStateContainer;
 };
