@@ -39,7 +39,7 @@ void World::LoadEntities()
 	static const unsigned int numberOfTotalEntities = 4;
 	
 	for (int i = 0; i < numberOfTotalEntities; i++)
-		mEntityList.push_back(new Entity(i));
+		mEntityList.push_back(new Entity(*this, i));
 }
 
 void World::LoadGameSystems()
