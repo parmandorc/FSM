@@ -38,6 +38,8 @@ void FSMOutOfCombat::OnLoad(const FSMStateContainer& pStateContainer)
 	
 	AddTransition<FSMUseObjectState, FSMIdleState>(pStateContainer, [](const Entity& pEntity)
 	{
-		return pEntity.GetWorld().GetRandomGenerator().Get(0.0f, 1.0f) < 0.3f;
+		// Exit 'UseObject' state when the entity finished using the object
+		int objectID = -1;
+		return !pEntity.GetBlackboard().Get("CurrentObject", objectID);
 	});
 }
