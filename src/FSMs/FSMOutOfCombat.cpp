@@ -1,5 +1,6 @@
 #include "FSMOutOfCombat.hpp"
 
+#include "Blackboard.hpp"
 #include "Entity.hpp"
 #include "FSMIdleState.hpp"
 #include "FSMPatrolState.hpp"
@@ -30,7 +31,9 @@ void FSMOutOfCombat::OnLoad(const FSMStateContainer& pStateContainer)
 	
 	AddTransition<FSMPatrolState, FSMIdleState>(pStateContainer, [](const Entity& pEntity)
 	{
-		return pEntity.GetWorld().GetRandomGenerator().Get(0.0f, 1.0f) < 0.1f;
+		// Exit 'Patrol' state when the current waypoint was reached
+		int currentWaypoint = -1;
+		return !pEntity.GetBlackboard().Get("CurrentWaypoint", currentWaypoint);
 	});
 	
 	AddTransition<FSMUseObjectState, FSMIdleState>(pStateContainer, [](const Entity& pEntity)
