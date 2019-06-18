@@ -5,7 +5,6 @@
 
 RandomGenerator::RandomGenerator()
 	: mEngine()
-	, m01Distribution(0.0f, 1.0f)
 {
 	std::random_device device;
 	const unsigned int randomSeed = device();
@@ -16,12 +15,18 @@ RandomGenerator::RandomGenerator()
 
 RandomGenerator::RandomGenerator(unsigned int pSeed)
 	: mEngine(pSeed)
-	, m01Distribution(0.0f, 1.0f)
 {
 
 }
 
-float RandomGenerator::GetValue01()
+int RandomGenerator::Get(int pMin, int pMax)
 {
-	return m01Distribution(mEngine);
+	std::uniform_int_distribution<int> distribution(pMin, pMax);
+	return distribution(mEngine);
+}
+
+float RandomGenerator::Get(float pMin, float pMax)
+{
+	std::uniform_real_distribution<float> distribution(pMin, pMax);
+	return distribution(mEngine);
 }
