@@ -2,6 +2,7 @@
 
 #include "Entity.hpp"
 #include "FSM.hpp"
+#include "FSMContainer.hpp"
 #include "FSMOutOfCombat.hpp"
 #include "FSMStateContainer.hpp"
 #include "World.hpp"
@@ -11,6 +12,7 @@
 
 BehaviorSystem::BehaviorSystem(const World& pWorld)
 	: GameSystem(pWorld)
+	, mFSMContainer(new FSMContainer())
 	, mStateContainer(new FSMStateContainer())
 	, mMainFSM(nullptr)
 {
@@ -19,6 +21,9 @@ BehaviorSystem::BehaviorSystem(const World& pWorld)
 
 BehaviorSystem::~BehaviorSystem()
 {
+	delete mFSMContainer;
+	mFSMContainer = nullptr;
+	
 	delete mStateContainer;
 	mStateContainer = nullptr;
 }
@@ -29,8 +34,10 @@ void BehaviorSystem::Load()
 	
 	mStateContainer->Load();
 	
-	mMainFSM = new FSMOutOfCombat();
-	mMainFSM->Load(*mStateContainer);
+	// Load FSMs after States have been loaded
+	mFSMContainer->Load(*mStateContainer);
+	
+	mMainFSM = &mFSMContainer->GetFSM<FSMOutOfCombat>();
 	
 	const World* world = GetWorld();
 	for (int i = 0; i < world->GetEntitiesCount(); i++)
@@ -51,10 +58,8 @@ void BehaviorSystem::Unload()
 		mMainFSM->Deactivate(entity);
 	}
 	
-	mMainFSM->Unload();
-	delete mMainFSM;
 	mMainFSM = nullptr;
-	
+	mFSMContainer->Unload();
 	mStateContainer->Unload();
 }
 

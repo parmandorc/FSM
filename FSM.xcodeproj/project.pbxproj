@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B63EC2AB229C6E3D0088CEC2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63EC2AA229C6E3D0088CEC2 /* main.cpp */; };
+		B69FA5B222C936F200282700 /* FSMContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B022C936F200282700 /* FSMContainer.cpp */; };
 		B6C6084322A2D7EE001FD62D /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C6084022A2D7EE001FD62D /* Entity.cpp */; };
 		B6C6084422A2D7EE001FD62D /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C6084122A2D7EE001FD62D /* World.cpp */; };
 		B6C6084922A2E6B1001FD62D /* GameSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C6084522A2E6B1001FD62D /* GameSystem.cpp */; };
@@ -38,6 +39,8 @@
 /* Begin PBXFileReference section */
 		B63EC2A7229C6E3D0088CEC2 /* FSM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FSM; sourceTree = BUILT_PRODUCTS_DIR; };
 		B63EC2AA229C6E3D0088CEC2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B69FA5B022C936F200282700 /* FSMContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMContainer.cpp; sourceTree = "<group>"; };
+		B69FA5B122C936F200282700 /* FSMContainer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMContainer.hpp; sourceTree = "<group>"; };
 		B6C6083F22A2D7EE001FD62D /* World.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = World.hpp; sourceTree = "<group>"; };
 		B6C6084022A2D7EE001FD62D /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		B6C6084122A2D7EE001FD62D /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
@@ -147,6 +150,8 @@
 				B6C6086322A434D4001FD62D /* FSMOutOfCombat.hpp */,
 				B6C6085F22A4347C001FD62D /* FSM.cpp */,
 				B6C6086022A4347C001FD62D /* FSM.hpp */,
+				B69FA5B022C936F200282700 /* FSMContainer.cpp */,
+				B69FA5B122C936F200282700 /* FSMContainer.hpp */,
 			);
 			path = FSMs;
 			sourceTree = "<group>";
@@ -212,6 +217,7 @@
 				B6C9A47022B96BD6001B1B62 /* Blackboard.cpp in Sources */,
 				B6C6085022A2F6BA001FD62D /* FSMState.cpp in Sources */,
 				B6C6084A22A2E6B1001FD62D /* BehaviorSystem.cpp in Sources */,
+				B69FA5B222C936F200282700 /* FSMContainer.cpp in Sources */,
 				B6C6084322A2D7EE001FD62D /* Entity.cpp in Sources */,
 				B6C6086422A434D5001FD62D /* FSMOutOfCombat.cpp in Sources */,
 				B63EC2AB229C6E3D0088CEC2 /* main.cpp in Sources */,

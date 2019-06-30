@@ -4,6 +4,7 @@
 
 
 class FSM;
+class FSMContainer;
 class FSMStateContainer;
 class World;
 
@@ -19,5 +20,6 @@ public:
 	
 private:
 	FSM* mMainFSM;
+	FSMContainer* mFSMContainer;
 	FSMStateContainer* mStateContainer;
 };
