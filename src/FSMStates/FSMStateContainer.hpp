@@ -16,7 +16,7 @@ public:
 	void Unload();
 	
 	template<typename StateType>
-	const FSMState& GetState() const
+	const StateType& GetState() const
 	{
 		const std::type_index typeIndex(typeid(StateType));
 		return static_cast<const StateType&>(GetStateByType(typeIndex));

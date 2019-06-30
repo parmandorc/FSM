@@ -31,7 +31,7 @@ const FSMState& FSMStateContainer::GetStateByType(const std::type_index& pType) 
 	assert(mStatesByType.count(pType) == 1 && "Trying to get a state that had not been registered");
 	const FSMState* state = mStatesByType.at(pType);
 	assert(state != nullptr && "Trying to get a state but it was null");
-	return *mStatesByType.at(pType);
+	return *state;
 }
 
 void FSMStateContainer::Unload()
