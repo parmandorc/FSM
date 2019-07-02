@@ -3,8 +3,6 @@
 #include "FSM.hpp"
 
 
-class FSMStateContainer;
-
 class FSMOutOfCombat : public FSM
 {
 public:
