@@ -19,6 +19,11 @@ FSM::~FSM()
 	
 }
 
+const std::string& FSM::GetName() const
+{
+	return mName;
+}
+
 void FSM::SetInitialState(const FSMState& pState)
 {
 	mInitialState = &pState;

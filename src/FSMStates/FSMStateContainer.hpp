@@ -2,6 +2,7 @@
 
 #include <typeindex>
 #include <unordered_map>
+#include <utility>
 
 
 class FSMState;
@@ -16,10 +17,18 @@ public:
 	void Unload();
 	
 	template<typename StateType>
-	const StateType& GetState() const
+	const FSMState& GetState() const
 	{
 		const std::type_index typeIndex(typeid(StateType));
-		return static_cast<const StateType&>(GetStateByType(typeIndex));
+		return GetStateByType(typeIndex);
+	}
+	
+	template<typename StateType, typename AliasType, typename ... Args>
+	void RegisterStateWithAlias(Args&&... pArgs)
+	{
+		const FSMState* state = new StateType(std::forward<Args>(pArgs)...);
+		const std::type_index typeIndex(typeid(AliasType));
+		RegisterState(*state, typeIndex);
 	}
 	
 private:
@@ -27,6 +36,8 @@ private:
 	
 	template<typename StateType>
 	void RegisterState();
+	
+	void RegisterState(const FSMState& pState, const std::type_index& pTypeIndex);
 	
 private:
 	std::unordered_map<std::type_index, const FSMState*> mStatesByType;

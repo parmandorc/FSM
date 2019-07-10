@@ -1,24 +1,35 @@
 #include "FSMContainer.hpp"
 
 #include "FSM.hpp"
+#include "FSMHierarchicalState.hpp"
 #include "FSMOutOfCombat.hpp"
 
 #include <cassert>
 #include <iostream>
 
 
-void FSMContainer::Load(const FSMStateContainer& pStateContainer)
+void FSMContainer::Load(FSMStateContainer& pStateContainer)
 {
 	RegisterFSM<FSMOutOfCombat>(pStateContainer);
+	
+	// Load FSMs after all types have been registered, as well as their Hierarchical proxy states,
+	//		since they might be used during loading of some FSMs.
+	for (const auto& pair : mFSMsByType)
+	{
+		FSM* fsm = pair.second;
+		fsm->Load(pStateContainer);
+	}
 }
 
 template<typename FSMType>
-void FSMContainer::RegisterFSM(const FSMStateContainer& pStateContainer)
+void FSMContainer::RegisterFSM(FSMStateContainer& pStateContainer)
 {
 	const std::type_index typeIndex(typeid(FSMType));
 	assert(mFSMsByType.count(typeIndex) == 0 && "Trying to register an FSM that had already been registered");
-	mFSMsByType[typeIndex] = new FSMType();
-	mFSMsByType[typeIndex]->Load(pStateContainer);
+	FSM* fsm = new FSMType();
+	mFSMsByType[typeIndex] = fsm;
+
+	pStateContainer.RegisterStateWithAlias<FSMHierarchicalState, FSMType>(*fsm);
 }
 
 FSM& FSMContainer::GetFSMByType(const std::type_index& pType) const

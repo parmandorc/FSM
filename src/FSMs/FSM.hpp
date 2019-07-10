@@ -38,6 +38,8 @@ public:
 	FSM(const char* pName);
 	virtual ~FSM();
 	
+	const std::string& GetName() const;
+	
 	void Load(const FSMStateContainer& pStateContainer);
 	void Unload();
 	

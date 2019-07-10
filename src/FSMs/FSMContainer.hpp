@@ -11,7 +11,7 @@ class FSMStateContainer;
 class FSMContainer
 {
 public:
-	void Load(const FSMStateContainer& pStateContainer);
+	void Load(FSMStateContainer& pStateContainer);
 	void Unload();
 	
 	template<typename FSMType>
@@ -25,7 +25,7 @@ private:
 	FSM& GetFSMByType(const std::type_index& pType) const;
 	
 	template<typename FSMType>
-	void RegisterFSM(const FSMStateContainer& pStateContainer);
+	void RegisterFSM(FSMStateContainer& pStateContainer);
 	
 private:
 	std::unordered_map<std::type_index, FSM*> mFSMsByType;

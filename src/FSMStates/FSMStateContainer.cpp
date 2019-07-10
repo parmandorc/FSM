@@ -21,9 +21,13 @@ void FSMStateContainer::Load()
 template<typename StateType>
 void FSMStateContainer::RegisterState()
 {
-	const std::type_index typeIndex(typeid(StateType));
-	assert(mStatesByType.count(typeIndex) == 0 && "Trying to register a state that had already been registered");
-	mStatesByType[typeIndex] = new StateType();
+	RegisterStateWithAlias<StateType, StateType>();
+}
+
+void FSMStateContainer::RegisterState(const FSMState& pState, const std::type_index& pTypeIndex)
+{
+	assert(mStatesByType.count(pTypeIndex) == 0 && "Trying to register a state that had already been registered");
+	mStatesByType[pTypeIndex] = &pState;
 }
 
 const FSMState& FSMStateContainer::GetStateByType(const std::type_index& pType) const
