@@ -3,7 +3,7 @@
 #include "Entity.hpp"
 #include "FSM.hpp"
 #include "FSMContainer.hpp"
-#include "FSMOutOfCombat.hpp"
+#include "FSMRoot.hpp"
 #include "FSMStateContainer.hpp"
 #include "World.hpp"
 
@@ -14,7 +14,7 @@ BehaviorSystem::BehaviorSystem(const World& pWorld)
 	: GameSystem(pWorld)
 	, mFSMContainer(new FSMContainer())
 	, mStateContainer(new FSMStateContainer())
-	, mMainFSM(nullptr)
+	, mRootFSM(nullptr)
 {
 	
 }
@@ -37,13 +37,13 @@ void BehaviorSystem::Load()
 	// Load FSMs after States have been loaded
 	mFSMContainer->Load(*mStateContainer);
 	
-	mMainFSM = &mFSMContainer->GetFSM<FSMOutOfCombat>();
+	mRootFSM = &mFSMContainer->GetFSM<FSMRoot>();
 	
 	const World* world = GetWorld();
 	for (int i = 0; i < world->GetEntitiesCount(); i++)
 	{
 		const Entity& entity = world->GetEntityByIndex(i);
-		mMainFSM->Activate(entity);
+		mRootFSM->Activate(entity);
 	}
 }
 
@@ -55,22 +55,22 @@ void BehaviorSystem::Unload()
 	for (int i = 0; i < world->GetEntitiesCount(); i++)
 	{
 		const Entity& entity = world->GetEntityByIndex(i);
-		mMainFSM->Deactivate(entity);
+		mRootFSM->Deactivate(entity);
 	}
 	
-	mMainFSM = nullptr;
+	mRootFSM = nullptr;
 	mFSMContainer->Unload();
 	mStateContainer->Unload();
 }
 
 void BehaviorSystem::Update()
 {
-	assert(mMainFSM != nullptr && "Tried to update behavior system but the main FSM was null");
+	assert(mRootFSM != nullptr && "Tried to update behavior system but the root FSM was null");
 	
 	const World* world = GetWorld();
 	for (int i = 0; i < world->GetEntitiesCount(); i++)
 	{
 		const Entity& entity = world->GetEntityByIndex(i);
-		mMainFSM->Update(entity);
+		mRootFSM->Update(entity);
 	}
 }

@@ -19,7 +19,7 @@ public:
 	void Update() override;
 	
 private:
-	FSM* mMainFSM;
+	FSM* mRootFSM;
 	FSMContainer* mFSMContainer;
 	FSMStateContainer* mStateContainer;
 };

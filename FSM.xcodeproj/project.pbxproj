@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		B63EC2AB229C6E3D0088CEC2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63EC2AA229C6E3D0088CEC2 /* main.cpp */; };
 		B69FA5B222C936F200282700 /* FSMContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B022C936F200282700 /* FSMContainer.cpp */; };
+		B69FA5B522CBE69700282700 /* FSMAttackState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B322CBE69700282700 /* FSMAttackState.cpp */; };
+		B69FA5B822CBE6F200282700 /* FSMChaseState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B622CBE6F200282700 /* FSMChaseState.cpp */; };
+		B69FA5BB22CBE77900282700 /* FSMInCombat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B922CBE77900282700 /* FSMInCombat.cpp */; };
+		B69FA5BE22CBE90800282700 /* FSMRoot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5BC22CBE90800282700 /* FSMRoot.cpp */; };
+		B69FA5C122CBED4200282700 /* FSMHierarchicalState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5BF22CBED4200282700 /* FSMHierarchicalState.cpp */; };
 		B6C6084322A2D7EE001FD62D /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C6084022A2D7EE001FD62D /* Entity.cpp */; };
 		B6C6084422A2D7EE001FD62D /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C6084122A2D7EE001FD62D /* World.cpp */; };
 		B6C6084922A2E6B1001FD62D /* GameSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C6084522A2E6B1001FD62D /* GameSystem.cpp */; };
@@ -41,6 +46,16 @@
 		B63EC2AA229C6E3D0088CEC2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B69FA5B022C936F200282700 /* FSMContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMContainer.cpp; sourceTree = "<group>"; };
 		B69FA5B122C936F200282700 /* FSMContainer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMContainer.hpp; sourceTree = "<group>"; };
+		B69FA5B322CBE69700282700 /* FSMAttackState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMAttackState.cpp; sourceTree = "<group>"; };
+		B69FA5B422CBE69700282700 /* FSMAttackState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMAttackState.hpp; sourceTree = "<group>"; };
+		B69FA5B622CBE6F200282700 /* FSMChaseState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMChaseState.cpp; sourceTree = "<group>"; };
+		B69FA5B722CBE6F200282700 /* FSMChaseState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMChaseState.hpp; sourceTree = "<group>"; };
+		B69FA5B922CBE77900282700 /* FSMInCombat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMInCombat.cpp; sourceTree = "<group>"; };
+		B69FA5BA22CBE77900282700 /* FSMInCombat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMInCombat.hpp; sourceTree = "<group>"; };
+		B69FA5BC22CBE90800282700 /* FSMRoot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMRoot.cpp; sourceTree = "<group>"; };
+		B69FA5BD22CBE90800282700 /* FSMRoot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMRoot.hpp; sourceTree = "<group>"; };
+		B69FA5BF22CBED4200282700 /* FSMHierarchicalState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMHierarchicalState.cpp; sourceTree = "<group>"; };
+		B69FA5C022CBED4200282700 /* FSMHierarchicalState.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMHierarchicalState.hpp; sourceTree = "<group>"; };
 		B6C6083F22A2D7EE001FD62D /* World.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = World.hpp; sourceTree = "<group>"; };
 		B6C6084022A2D7EE001FD62D /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		B6C6084122A2D7EE001FD62D /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
@@ -99,6 +114,8 @@
 		B63EC2A9229C6E3D0088CEC2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				B6C9A46E22B96BD6001B1B62 /* Blackboard.cpp */,
+				B6C9A46F22B96BD6001B1B62 /* Blackboard.hpp */,
 				B6C6084022A2D7EE001FD62D /* Entity.cpp */,
 				B6C6084222A2D7EE001FD62D /* Entity.hpp */,
 				B6C6085E22A43453001FD62D /* FSMs */,
@@ -109,8 +126,6 @@
 				B6C6086622A83800001FD62D /* RandomGenerator.hpp */,
 				B6C6084122A2D7EE001FD62D /* World.cpp */,
 				B6C6083F22A2D7EE001FD62D /* World.hpp */,
-				B6C9A46E22B96BD6001B1B62 /* Blackboard.cpp */,
-				B6C9A46F22B96BD6001B1B62 /* Blackboard.hpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -129,6 +144,12 @@
 		B6C6084C22A2F675001FD62D /* FSMStates */ = {
 			isa = PBXGroup;
 			children = (
+				B69FA5B322CBE69700282700 /* FSMAttackState.cpp */,
+				B69FA5B422CBE69700282700 /* FSMAttackState.hpp */,
+				B69FA5B622CBE6F200282700 /* FSMChaseState.cpp */,
+				B69FA5B722CBE6F200282700 /* FSMChaseState.hpp */,
+				B69FA5BF22CBED4200282700 /* FSMHierarchicalState.cpp */,
+				B69FA5C022CBED4200282700 /* FSMHierarchicalState.hpp */,
 				B6C6085222A2FA3F001FD62D /* FSMIdleState.cpp */,
 				B6C6085422A2FA3F001FD62D /* FSMIdleState.hpp */,
 				B6C6085522A2FA3F001FD62D /* FSMPatrolState.cpp */,
@@ -146,12 +167,16 @@
 		B6C6085E22A43453001FD62D /* FSMs */ = {
 			isa = PBXGroup;
 			children = (
-				B6C6086222A434D4001FD62D /* FSMOutOfCombat.cpp */,
-				B6C6086322A434D4001FD62D /* FSMOutOfCombat.hpp */,
 				B6C6085F22A4347C001FD62D /* FSM.cpp */,
 				B6C6086022A4347C001FD62D /* FSM.hpp */,
 				B69FA5B022C936F200282700 /* FSMContainer.cpp */,
 				B69FA5B122C936F200282700 /* FSMContainer.hpp */,
+				B69FA5B922CBE77900282700 /* FSMInCombat.cpp */,
+				B69FA5BA22CBE77900282700 /* FSMInCombat.hpp */,
+				B6C6086222A434D4001FD62D /* FSMOutOfCombat.cpp */,
+				B6C6086322A434D4001FD62D /* FSMOutOfCombat.hpp */,
+				B69FA5BC22CBE90800282700 /* FSMRoot.cpp */,
+				B69FA5BD22CBE90800282700 /* FSMRoot.hpp */,
 			);
 			path = FSMs;
 			sourceTree = "<group>";
@@ -213,11 +238,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C6086722A83800001FD62D /* RandomGenerator.cpp in Sources */,
+				B69FA5BE22CBE90800282700 /* FSMRoot.cpp in Sources */,
 				B6C6085C22A2FB2D001FD62D /* FSMStateContainer.cpp in Sources */,
+				B69FA5C122CBED4200282700 /* FSMHierarchicalState.cpp in Sources */,
+				B69FA5B522CBE69700282700 /* FSMAttackState.cpp in Sources */,
 				B6C9A47022B96BD6001B1B62 /* Blackboard.cpp in Sources */,
 				B6C6085022A2F6BA001FD62D /* FSMState.cpp in Sources */,
 				B6C6084A22A2E6B1001FD62D /* BehaviorSystem.cpp in Sources */,
 				B69FA5B222C936F200282700 /* FSMContainer.cpp in Sources */,
+				B69FA5B822CBE6F200282700 /* FSMChaseState.cpp in Sources */,
 				B6C6084322A2D7EE001FD62D /* Entity.cpp in Sources */,
 				B6C6086422A434D5001FD62D /* FSMOutOfCombat.cpp in Sources */,
 				B63EC2AB229C6E3D0088CEC2 /* main.cpp in Sources */,
@@ -227,6 +256,7 @@
 				B6C6084922A2E6B1001FD62D /* GameSystem.cpp in Sources */,
 				B6C6085922A2FA3F001FD62D /* FSMPatrolState.cpp in Sources */,
 				B6C6084422A2D7EE001FD62D /* World.cpp in Sources */,
+				B69FA5BB22CBE77900282700 /* FSMInCombat.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

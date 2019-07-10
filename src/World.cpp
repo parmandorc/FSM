@@ -36,7 +36,7 @@ void World::LoadEntities()
 {
 	std::cout << "Loading entities" << std::endl;
 	
-	static const unsigned int numberOfTotalEntities = 4;
+	static const unsigned int numberOfTotalEntities = 2;
 	
 	for (int i = 0; i < numberOfTotalEntities; i++)
 		mEntityList.push_back(new Entity(*this, i));
