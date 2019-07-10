@@ -1,6 +1,7 @@
 #include "FSMContainer.hpp"
 
 #include "FSM.hpp"
+#include "FSMInCombat.hpp"
 #include "FSMHierarchicalState.hpp"
 #include "FSMOutOfCombat.hpp"
 
@@ -10,6 +11,7 @@
 
 void FSMContainer::Load(FSMStateContainer& pStateContainer)
 {
+	RegisterFSM<FSMInCombat>(pStateContainer);
 	RegisterFSM<FSMOutOfCombat>(pStateContainer);
 	
 	// Load FSMs after all types have been registered, as well as their Hierarchical proxy states,

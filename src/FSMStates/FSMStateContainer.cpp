@@ -1,5 +1,7 @@
 #include "FSMStateContainer.hpp"
 
+#include "FSMAttackState.hpp"
+#include "FSMChaseState.hpp"
 #include "FSMIdleState.hpp"
 #include "FSMPatrolState.hpp"
 #include "FSMState.hpp"
@@ -13,6 +15,8 @@ void FSMStateContainer::Load()
 {
 	std::cout << "Registering states" << std::endl;
 	
+	RegisterState<FSMAttackState>();
+	RegisterState<FSMChaseState>();
 	RegisterState<FSMIdleState>();
 	RegisterState<FSMPatrolState>();
 	RegisterState<FSMUseObjectState>();
