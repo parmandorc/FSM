@@ -47,6 +47,8 @@ void TargetingSystem::Update()
 			
 			if (random.Get(0.0f, 1.0f) < chanceOfRemoval)
 				RemoveTargetEnemy(entity);
+			else if (random.Get(0.0f, 1.0f) < 0.2f)
+				ToggleLineOfSight(entity);
 		}
 		else
 		{
@@ -62,6 +64,7 @@ void TargetingSystem::AddTargetEnemy(const Entity& pEntity) const
 	const int enemyID = GetWorld().GetRandomGenerator().Get(0, maxEnemyCount - 1);
 	
 	pEntity.GetBlackboard().Set("TargetEnemy", enemyID);
+	pEntity.GetBlackboard().Set("HasLOS", 1);
 }
 
 void TargetingSystem::RemoveTargetEnemy(const Entity& pEntity) const
@@ -82,4 +85,29 @@ void TargetingSystem::RemoveTargetEnemy(const Entity& pEntity) const
 	}
 	
 	blackboard.Clear("TargetEnemy");
+	blackboard.Clear("HasLOS");
+}
+
+void TargetingSystem::ToggleLineOfSight(const Entity& pEntity) const
+{
+	Blackboard& blackboard = pEntity.GetBlackboard();
+	
+	int enemyID = -1;
+	blackboard.Get("TargetEnemy", enemyID);
+	
+	int hasLineOfSight = 0;
+	blackboard.Get("HasLOS", hasLineOfSight);
+	
+	if (hasLineOfSight > 0)
+	{
+		blackboard.Set("HasLOS", 0);
+		
+		std::cout << "Entity with ID: " << pEntity.GetID() << " lost line of sight of its target enemy (ID: " << enemyID << ")." << std::endl;
+	}
+	else
+	{
+		blackboard.Set("HasLOS", 1);
+		
+		std::cout << "Entity with ID: " << pEntity.GetID() << " regained line of sight of its target enemy (ID: " << enemyID << ")." << std::endl;
+	}
 }

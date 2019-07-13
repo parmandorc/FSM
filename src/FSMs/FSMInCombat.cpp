@@ -1,10 +1,9 @@
 #include "FSMInCombat.hpp"
 
+#include "Blackboard.hpp"
 #include "Entity.hpp"
 #include "FSMAttackState.hpp"
 #include "FSMChaseState.hpp"
-#include "RandomGenerator.hpp"
-#include "World.hpp"
 
 
 FSMInCombat::FSMInCombat()
@@ -19,11 +18,17 @@ void FSMInCombat::OnLoad(const FSMStateContainer& pStateContainer)
 	
 	AddTransition<FSMAttackState, FSMChaseState>(pStateContainer, [](const Entity& pEntity)
 	{
-		return pEntity.GetWorld().GetRandomGenerator().Get(0.0f, 1.0f) < 0.2f;
+		// Start chasing when line of sight is lost
+		int hasLineOfSight = 0;
+		pEntity.GetBlackboard().Get("HasLOS", hasLineOfSight);
+		return hasLineOfSight <= 0;
 	});
 	
-	AddTransition<FSMAttackState, FSMChaseState>(pStateContainer, [](const Entity& pEntity)
+	AddTransition<FSMChaseState, FSMAttackState>(pStateContainer, [](const Entity& pEntity)
 	{
-		return pEntity.GetWorld().GetRandomGenerator().Get(0.0f, 1.0f) < 0.2f;
+		// Start attacking again when line of sight is regained
+		int hasLineOfSight = 0;
+		pEntity.GetBlackboard().Get("HasLOS", hasLineOfSight);
+		return hasLineOfSight > 0;
 	});
 }

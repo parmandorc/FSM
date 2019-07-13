@@ -17,4 +17,6 @@ public:
 private:
 	void AddTargetEnemy(const Entity& pEntity) const;
 	void RemoveTargetEnemy(const Entity& pEntity) const;
+	
+	void ToggleLineOfSight(const Entity& pEntity) const;
 };
