@@ -26,7 +26,7 @@ void FSMRoot::OnLoad(const FSMStateContainer& pStateContainer)
 	
 	AddTransition<FSMInCombat, FSMOutOfCombat>(pStateContainer, [](const Entity& pEntity)
 	{
-		// Exit combat when there is a target enemy
+		// Exit combat when there is no target enemy
 		int enemyID = -1;
 		return !pEntity.GetBlackboard().Get("TargetEnemy", enemyID);
 	});
