@@ -14,7 +14,7 @@ public:
 	virtual void Update() = 0;
 	
 protected:
-	const World* GetWorld() const;
+	const World& GetWorld() const;
 	
 private:
 	const World* mWorld;

@@ -39,10 +39,10 @@ void BehaviorSystem::Load()
 	
 	mRootFSM = &mFSMContainer->GetFSM<FSMRoot>();
 	
-	const World* world = GetWorld();
-	for (int i = 0; i < world->GetEntitiesCount(); i++)
+	const World& world = GetWorld();
+	for (int i = 0; i < world.GetEntitiesCount(); i++)
 	{
-		const Entity& entity = world->GetEntityByIndex(i);
+		const Entity& entity = world.GetEntityByIndex(i);
 		mRootFSM->Activate(entity);
 	}
 }
@@ -51,10 +51,10 @@ void BehaviorSystem::Unload()
 {
 	std::cout << "Unloading behavior system" << std::endl;
 	
-	const World* world = GetWorld();
-	for (int i = 0; i < world->GetEntitiesCount(); i++)
+	const World& world = GetWorld();
+	for (int i = 0; i < world.GetEntitiesCount(); i++)
 	{
-		const Entity& entity = world->GetEntityByIndex(i);
+		const Entity& entity = world.GetEntityByIndex(i);
 		mRootFSM->Deactivate(entity);
 	}
 	
@@ -67,10 +67,10 @@ void BehaviorSystem::Update()
 {
 	assert(mRootFSM != nullptr && "Tried to update behavior system but the root FSM was null");
 	
-	const World* world = GetWorld();
-	for (int i = 0; i < world->GetEntitiesCount(); i++)
+	const World& world = GetWorld();
+	for (int i = 0; i < world.GetEntitiesCount(); i++)
 	{
-		const Entity& entity = world->GetEntityByIndex(i);
+		const Entity& entity = world.GetEntityByIndex(i);
 		mRootFSM->Update(entity);
 	}
 }
