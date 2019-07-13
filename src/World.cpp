@@ -4,6 +4,7 @@
 #include "Entity.hpp"
 #include "GameSystem.hpp"
 #include "RandomGenerator.hpp"
+#include "TargetingSystem.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -47,6 +48,7 @@ void World::LoadGameSystems()
 	std::cout << "Loading game systems" << std::endl;
 	
 	// This defines the order of execution
+	mGameSystemList.push_back(new TargetingSystem(*this));
 	mGameSystemList.push_back(new BehaviorSystem(*this));
 	
 	for (GameSystem* system : mGameSystemList)

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B63EC2AB229C6E3D0088CEC2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63EC2AA229C6E3D0088CEC2 /* main.cpp */; };
+		B69DB62822DA307000679362 /* TargetingSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69DB62622DA307000679362 /* TargetingSystem.cpp */; };
 		B69FA5B222C936F200282700 /* FSMContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B022C936F200282700 /* FSMContainer.cpp */; };
 		B69FA5B522CBE69700282700 /* FSMAttackState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B322CBE69700282700 /* FSMAttackState.cpp */; };
 		B69FA5B822CBE6F200282700 /* FSMChaseState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B69FA5B622CBE6F200282700 /* FSMChaseState.cpp */; };
@@ -44,6 +45,8 @@
 /* Begin PBXFileReference section */
 		B63EC2A7229C6E3D0088CEC2 /* FSM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FSM; sourceTree = BUILT_PRODUCTS_DIR; };
 		B63EC2AA229C6E3D0088CEC2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B69DB62622DA307000679362 /* TargetingSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TargetingSystem.cpp; sourceTree = "<group>"; };
+		B69DB62722DA307000679362 /* TargetingSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TargetingSystem.hpp; sourceTree = "<group>"; };
 		B69FA5B022C936F200282700 /* FSMContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMContainer.cpp; sourceTree = "<group>"; };
 		B69FA5B122C936F200282700 /* FSMContainer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FSMContainer.hpp; sourceTree = "<group>"; };
 		B69FA5B322CBE69700282700 /* FSMAttackState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSMAttackState.cpp; sourceTree = "<group>"; };
@@ -137,6 +140,8 @@
 				B6C6084722A2E6B1001FD62D /* BehaviorSystem.hpp */,
 				B6C6084522A2E6B1001FD62D /* GameSystem.cpp */,
 				B6C6084822A2E6B1001FD62D /* GameSystem.hpp */,
+				B69DB62622DA307000679362 /* TargetingSystem.cpp */,
+				B69DB62722DA307000679362 /* TargetingSystem.hpp */,
 			);
 			path = GameSystems;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				B6C9A47022B96BD6001B1B62 /* Blackboard.cpp in Sources */,
 				B6C6085022A2F6BA001FD62D /* FSMState.cpp in Sources */,
 				B6C6084A22A2E6B1001FD62D /* BehaviorSystem.cpp in Sources */,
+				B69DB62822DA307000679362 /* TargetingSystem.cpp in Sources */,
 				B69FA5B222C936F200282700 /* FSMContainer.cpp in Sources */,
 				B69FA5B822CBE6F200282700 /* FSMChaseState.cpp in Sources */,
 				B6C6084322A2D7EE001FD62D /* Entity.cpp in Sources */,

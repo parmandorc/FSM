@@ -1,11 +1,10 @@
 #include "FSMRoot.hpp"
 
+#include "Blackboard.hpp"
 #include "Entity.hpp"
 #include "FSMHierarchicalState.hpp"
 #include "FSMInCombat.hpp"
 #include "FSMOutOfCombat.hpp"
-#include "RandomGenerator.hpp"
-#include "World.hpp"
 
 
 FSMRoot::FSMRoot()
@@ -20,11 +19,15 @@ void FSMRoot::OnLoad(const FSMStateContainer& pStateContainer)
 	
 	AddTransition<FSMOutOfCombat, FSMInCombat>(pStateContainer, [](const Entity& pEntity)
 	{
-		return pEntity.GetWorld().GetRandomGenerator().Get(0.0f, 1.0f) < 0.05f;
+		// Enter combat when there is a target enemy
+		int enemyID = -1;
+		return pEntity.GetBlackboard().Get("TargetEnemy", enemyID);
 	});
 	
 	AddTransition<FSMInCombat, FSMOutOfCombat>(pStateContainer, [](const Entity& pEntity)
 	{
-		return pEntity.GetWorld().GetRandomGenerator().Get(0.0f, 1.0f) < 0.1f;
+		// Exit combat when there is a target enemy
+		int enemyID = -1;
+		return !pEntity.GetBlackboard().Get("TargetEnemy", enemyID);
 	});
 }
