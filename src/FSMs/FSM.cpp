@@ -29,13 +29,23 @@ void FSM::SetInitialState(const FSMState& pState)
 	mInitialState = &pState;
 }
 
-void FSM::AddTransition(const FSMState& pOriginState, const FSMState& pDestinationState, const FSMTransition::Condition& pCondition)
+void FSM::AddTransition(const FSMState& pOriginState,
+						const FSMState* pDestinationState,
+						const FSMTransition::Type pType,
+						const FSMTransition::Condition& pCondition)
 {
-	assert(&pOriginState != &pDestinationState && "Trying to add a transition from a state to itself");
+	if (pType != FSMTransition::Type::Pop)
+	{
+		assert(pDestinationState != nullptr &&
+			   "Tried to add a transition with no destination state, but the type was not Pop");
+		assert(&pOriginState != pDestinationState &&
+			   "Tried to add a transition from a state to itself");
+	}
 	
 	FSMTransition transition;
 	transition.mCondition = pCondition;
-	transition.mDestinationState = &pDestinationState;
+	transition.mDestinationState = pDestinationState;
+	transition.mType = pType;
 	
 	mTransitionsByCurrentState[&pOriginState].push_back(std::move(transition));
 }
@@ -62,9 +72,11 @@ void FSM::Activate(const Entity& pEntity)
 	
 	std::cout << "Activating FSM '" << mName << "' for entity with ID: " << entityID << std::endl;
 	
-	assert(mCurrentStateByEntityID.count(entityID) == 0 && "Tried to activate an FSM that was already active for the specified entity");
-	assert(mInitialState != nullptr && "Tried to activate an FSM but no initial state had been set");
-	mCurrentStateByEntityID[entityID] = mInitialState;
+	assert(mStateStackByEntityID.count(entityID) == 0 &&
+		   "Tried to activate an FSM that was already active for the specified entity");
+	assert(mInitialState != nullptr &&
+		   "Tried to activate an FSM but no initial state had been set");
+	mStateStackByEntityID[entityID].push(mInitialState);
 	
 	GetCurrentState(pEntity).Enter(pEntity);
 }
@@ -77,7 +89,7 @@ void FSM::Deactivate(const Entity& pEntity)
 	
 	GetCurrentState(pEntity).Exit(pEntity);
 
-	mCurrentStateByEntityID.erase(entityID);
+	mStateStackByEntityID.erase(entityID);
 }
 
 void FSM::Update(const Entity& pEntity)
@@ -97,11 +109,12 @@ bool FSM::UpdateTransitions(const Entity& pEntity, const FSMState& pCurrentState
 	
 	for (const FSMTransition& transition : mTransitionsByCurrentState[&pCurrentState])
 	{
-		assert(transition.mCondition && "Tried to check a transition from the current state but the condition was not valid");
+		assert(transition.mCondition &&
+			   "Tried to check a transition from the current state but the condition was not valid");
+		
 		if (transition.mCondition(pEntity))
 		{
-			assert(transition.mDestinationState != nullptr && "Tried to transition to a state but it was null");
-			TransitionTo(pEntity, *transition.mDestinationState);
+			PerformTransition(pEntity, transition);
 			return true;
 		}
 	}
@@ -109,20 +122,64 @@ bool FSM::UpdateTransitions(const Entity& pEntity, const FSMState& pCurrentState
 	return false;
 }
 
-void FSM::TransitionTo(const Entity& pEntity, const FSMState& pDestinationState)
+void FSM::PerformTransition(const Entity& pEntity, const FSMTransition& pTransition)
 {
+	if (pTransition.mType != FSMTransition::Type::Pop)
+	{
+		assert(pTransition.mDestinationState != nullptr &&
+			   "Tried to transition to a state but it was null and the type was not Pop");
+	}
+	else
+	{
+		const std::stack<const FSMState*>& stateStack = GetStateStack(pEntity);
+		assert(stateStack.size() > 1 &&
+			   "Tried to perform a Pop transition but that would have left the state stack empty.");
+	}
+	
+	const int entityID = pEntity.GetID();
+
 	GetCurrentState(pEntity).Exit(pEntity);
-	mCurrentStateByEntityID[pEntity.GetID()] = &pDestinationState;
+
+	switch (pTransition.mType)
+	{
+		case FSMTransition::Type::Normal:
+			mStateStackByEntityID[entityID].pop();
+			mStateStackByEntityID[entityID].push(pTransition.mDestinationState);
+			break;
+			
+		case FSMTransition::Type::Push:
+			mStateStackByEntityID[entityID].push(pTransition.mDestinationState);
+			break;
+			
+		case FSMTransition::Type::Pop:
+			mStateStackByEntityID[entityID].pop();
+			break;
+			
+		default:
+			assert(false && "Unhandled transition type");
+	}
+	
 	GetCurrentState(pEntity).Enter(pEntity);
+}
+
+const std::stack<const FSMState*>& FSM::GetStateStack(const Entity& pEntity) const
+{
+	const int entityID = pEntity.GetID();
+	assert(mStateStackByEntityID.count(entityID) == 1 &&
+		   "Tried to get state stack but FSM had not been activated");
+	
+	return mStateStackByEntityID.at(entityID);
 }
 
 const FSMState& FSM::GetCurrentState(const Entity& pEntity) const
 {
-	const int entityID = pEntity.GetID();
-	assert(mCurrentStateByEntityID.count(entityID) == 1 && "Tried to get current state but FSM had not been activated");
+	const std::stack<const FSMState*>& stateStack = GetStateStack(pEntity);
+	assert(!stateStack.empty() &&
+		   "Tried to get current state but state stack was empty");
 	
-	const FSMState* currentState = mCurrentStateByEntityID.at(entityID);
-	assert(currentState != nullptr && "Tried to get current state but it was null");
+	const FSMState* currentState = stateStack.top();
+	assert(currentState != nullptr &&
+		   "Tried to get current state but it was null");
 	
 	return *currentState;
 }

@@ -2,6 +2,7 @@
 
 #include "FSMStateContainer.hpp"
 
+#include <stack>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -28,10 +29,18 @@ class FSM
 private:
 	struct FSMTransition
 	{
+		enum Type
+		{
+			Normal,
+			Push,
+			Pop
+		};
+		
 		typedef std::function<bool(const Entity&)> Condition;
 		
 		Condition mCondition;
 		const FSMState* mDestinationState;
+		Type mType;
 	};
 	
 public:
@@ -62,21 +71,40 @@ protected:
 	{
 		const FSMState& originState = pStateContainer.GetState<OriginStateType>();
 		const FSMState& destinationState = pStateContainer.GetState<DestinationStateType>();
-		AddTransition(originState, destinationState, pCondition);
+		AddTransition(originState, &destinationState, FSMTransition::Type::Normal, pCondition);
+	}
+	
+	template<typename OriginStateType, typename DestinationStateType>
+	void AddPushTransition(const FSMStateContainer& pStateContainer, const FSMTransition::Condition& pCondition)
+	{
+		const FSMState& originState = pStateContainer.GetState<OriginStateType>();
+		const FSMState& destinationState = pStateContainer.GetState<DestinationStateType>();
+		AddTransition(originState, &destinationState, FSMTransition::Type::Push, pCondition);
+	}
+	
+	template<typename OriginStateType>
+	void AddPopTransition(const FSMStateContainer& pStateContainer, const FSMTransition::Condition& pCondition)
+	{
+		const FSMState& originState = pStateContainer.GetState<OriginStateType>();
+		AddTransition(originState, nullptr, FSMTransition::Type::Pop, pCondition);
 	}
 	
 private:
 	void SetInitialState(const FSMState& pState);
-	void AddTransition(const FSMState& pOriginState, const FSMState& pDestinationState, const FSMTransition::Condition& pCondition);
+	void AddTransition(const FSMState& pOriginState,
+					   const FSMState* pDestinationState,
+					   const FSMTransition::Type pType,
+					   const FSMTransition::Condition& pCondition);
 	
 	bool UpdateTransitions(const Entity& pEntity, const FSMState& pCurrentState);
-	void TransitionTo(const Entity& pEntity, const FSMState& pDestinationState);
+	void PerformTransition(const Entity& pEntity, const FSMTransition& pTransition);
 	
+	const std::stack<const FSMState*>& GetStateStack(const Entity& pEntity) const;
 	const FSMState& GetCurrentState(const Entity& pEntity) const;
 	
 private:
 	std::unordered_map<const FSMState*, std::vector<FSMTransition>> mTransitionsByCurrentState;
-	std::unordered_map<int, const FSMState*> mCurrentStateByEntityID;
+	std::unordered_map<int, std::stack<const FSMState*>> mStateStackByEntityID;
 	std::string mName;
 	const FSMState* mInitialState;
 };
