@@ -23,27 +23,33 @@ void FSMUseObjectState::OnEnter(const Entity &pEntity) const
 	RandomGenerator& randomGenerator = pEntity.GetWorld().GetRandomGenerator();
 	const int objectID = randomGenerator.Get(0, lMaxObjectID);
 	const int interactionDuration = randomGenerator.Get(lMinInteractionDuration, lMaxInteractionDuration);
+	const bool isInteractionResumable = randomGenerator.Get(0.0f, 1.0f) < 0.5f;
 	
-	pEntity.GetBlackboard().Set("CurrentObject", objectID);
-	pEntity.GetBlackboard().Set("RemainingInteractionTime", interactionDuration);
+	Blackboard& blackboard = pEntity.GetBlackboard();
+	blackboard.Set("CurrentObject", objectID);
+	blackboard.Set("InteractionDuration", interactionDuration);
+	blackboard.Set("RemainingInteractionTime", interactionDuration);
+	blackboard.Set("IsInteractionResumable", isInteractionResumable ? 1 : 0);
 	
 	std::cout << "Entity with ID: " << pEntity.GetID() << " started using object with ID: " << objectID << ". The interaction will take a duration of " << interactionDuration << "." << std::endl;
 }
 
 void FSMUseObjectState::Update(const Entity &pEntity) const
 {
+	Blackboard& blackboard = pEntity.GetBlackboard();
+
 	int remainingInteractionTime = -1;
-	if (pEntity.GetBlackboard().Get("RemainingInteractionTime", remainingInteractionTime))
+	if (blackboard.Get("RemainingInteractionTime", remainingInteractionTime))
 	{
 		remainingInteractionTime--;
-		pEntity.GetBlackboard().Set("RemainingInteractionTime", remainingInteractionTime);
+		blackboard.Set("RemainingInteractionTime", remainingInteractionTime);
 		
 		if (remainingInteractionTime <= 0)
 		{
 			int objectID = -1;
-			pEntity.GetBlackboard().Get("CurrentObject", objectID);
+			blackboard.Get("CurrentObject", objectID);
 			
-			pEntity.GetBlackboard().Clear("CurrentObject");
+			blackboard.Clear("CurrentObject");
 			
 			std::cout << "Entity with ID: " << pEntity.GetID() << " finished using object with ID: " << objectID << "." << std::endl;
 		}
@@ -52,6 +58,51 @@ void FSMUseObjectState::Update(const Entity &pEntity) const
 
 void FSMUseObjectState::OnExit(const Entity &pEntity) const
 {
-	pEntity.GetBlackboard().Clear("CurrentObject");
-	pEntity.GetBlackboard().Clear("RemainingInteractionTime");
+	Blackboard& blackboard = pEntity.GetBlackboard();
+	blackboard.Clear("CurrentObject");
+	blackboard.Clear("InteractionDuration");
+	blackboard.Clear("RemainingInteractionTime");
+	blackboard.Clear("IsInteractionResumable");
+}
+
+void FSMUseObjectState::OnResume(const Entity& pEntity) const
+{
+	Blackboard& blackboard = pEntity.GetBlackboard();
+	int objectID = -1;
+	if (blackboard.Get("CurrentObject", objectID))
+	{
+		int interactionDuration = -1;
+		int remainingInteractionTime = -1;
+		int isInteractionResumable = -1;
+		if (blackboard.Get("InteractionDuration", interactionDuration) &&
+			blackboard.Get("RemainingInteractionTime", remainingInteractionTime) &&
+			blackboard.Get("IsInteractionResumable", isInteractionResumable))
+		{
+			if (isInteractionResumable > 0)
+			{
+				std::cout << "Entity with ID: " << pEntity.GetID() << " resumed the interaction with object with ID: " << objectID << ". The interaction has a remaining duration of " << remainingInteractionTime << "." << std::endl;
+			}
+			else
+			{
+				std::cout << "Entity with ID: " << pEntity.GetID() << " restarted the interaction with object with ID: " << objectID << ". The interaction will take a duration of " << interactionDuration << "." << std::endl;
+				
+				blackboard.Set("RemainingInteractionTime", interactionDuration);
+			}
+		}
+		else
+		{
+			std::cout << "Entity with ID: " << pEntity.GetID() << " was not able to resume the interaction with object with ID: " << objectID << ", so it was aborted." << std::endl;
+			
+			blackboard.Clear("CurrentObject");
+		}
+	}
+	else
+	{
+		std::cout << "Entity with ID: " << pEntity.GetID() << " was not able to resume the interaction since it had already been completed." << std::endl;
+	}
+}
+
+void FSMUseObjectState::OnPause(const Entity& pEntity) const
+{
+	// Do not clear the information about the current object so the interaction can be resumed
 }
