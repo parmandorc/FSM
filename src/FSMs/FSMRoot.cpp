@@ -17,14 +17,14 @@ void FSMRoot::OnLoad(const FSMStateContainer& pStateContainer)
 {
 	SetInitialState<FSMOutOfCombat>(pStateContainer);
 	
-	AddTransition<FSMOutOfCombat, FSMInCombat>(pStateContainer, [](const Entity& pEntity)
+	AddPushTransition<FSMOutOfCombat, FSMInCombat>(pStateContainer, [](const Entity& pEntity)
 	{
 		// Enter combat when there is a target enemy
 		int enemyID = -1;
 		return pEntity.GetBlackboard().Get("TargetEnemy", enemyID);
 	});
 	
-	AddTransition<FSMInCombat, FSMOutOfCombat>(pStateContainer, [](const Entity& pEntity)
+	AddPopTransition<FSMInCombat>(pStateContainer, [](const Entity& pEntity)
 	{
 		// Exit combat when there is no target enemy
 		int enemyID = -1;
