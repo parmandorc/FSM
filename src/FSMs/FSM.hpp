@@ -54,6 +54,8 @@ public:
 	
 	void Activate(const Entity& pEntity);
 	void Deactivate(const Entity& pEntity);
+	void Resume(const Entity& pEntity);
+	void Pause(const Entity& pEntity);
 	void Update(const Entity& pEntity);
 	
 protected:

@@ -92,6 +92,27 @@ void FSM::Deactivate(const Entity& pEntity)
 	mStateStackByEntityID.erase(entityID);
 }
 
+void FSM::Resume(const Entity& pEntity)
+{
+	const int entityID = pEntity.GetID();
+	
+	std::cout << "Resuming FSM '" << mName << "' for entity with ID: " << entityID << std::endl;
+	
+	assert(mStateStackByEntityID.count(entityID) == 1 &&
+		   "Tried to resume an FSM but it had not been activated");
+	
+	GetCurrentState(pEntity).Resume(pEntity);
+}
+
+void FSM::Pause(const Entity& pEntity)
+{
+	const int entityID = pEntity.GetID();
+	
+	std::cout << "Pausing FSM '" << mName << "' for entity with ID: " << entityID << std::endl;
+	
+	GetCurrentState(pEntity).Pause(pEntity);
+}
+
 void FSM::Update(const Entity& pEntity)
 {
 	const FSMState& currentState = GetCurrentState(pEntity);
@@ -138,28 +159,30 @@ void FSM::PerformTransition(const Entity& pEntity, const FSMTransition& pTransit
 	
 	const int entityID = pEntity.GetID();
 
-	GetCurrentState(pEntity).Exit(pEntity);
-
 	switch (pTransition.mType)
 	{
 		case FSMTransition::Type::Normal:
+			GetCurrentState(pEntity).Exit(pEntity);
 			mStateStackByEntityID[entityID].pop();
 			mStateStackByEntityID[entityID].push(pTransition.mDestinationState);
+			GetCurrentState(pEntity).Enter(pEntity);
 			break;
 			
 		case FSMTransition::Type::Push:
+			GetCurrentState(pEntity).Pause(pEntity);
 			mStateStackByEntityID[entityID].push(pTransition.mDestinationState);
+			GetCurrentState(pEntity).Enter(pEntity);
 			break;
 			
 		case FSMTransition::Type::Pop:
+			GetCurrentState(pEntity).Exit(pEntity);
 			mStateStackByEntityID[entityID].pop();
+			GetCurrentState(pEntity).Resume(pEntity);
 			break;
 			
 		default:
 			assert(false && "Unhandled transition type");
 	}
-	
-	GetCurrentState(pEntity).Enter(pEntity);
 }
 
 const std::stack<const FSMState*>& FSM::GetStateStack(const Entity& pEntity) const

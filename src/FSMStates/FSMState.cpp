@@ -40,6 +40,30 @@ void FSMState::OnExit(const Entity& pEntity) const
 	
 }
 
+void FSMState::Resume(const Entity& pEntity) const
+{
+	std::cout << "Resuming state '" << mName << "' for entity with ID: " << pEntity.GetID() << std::endl;
+	
+	OnResume(pEntity);
+}
+
+void FSMState::OnResume(const Entity& pEntity) const
+{
+	OnEnter(pEntity);
+}
+
+void FSMState::Pause(const Entity& pEntity) const
+{
+	std::cout << "Pausing state '" << mName << "' for entity with ID: " << pEntity.GetID() << std::endl;
+	
+	OnPause(pEntity);
+}
+
+void FSMState::OnPause(const Entity& pEntity) const
+{
+	OnExit(pEntity);
+}
+
 void FSMState::Update(const Entity& pEntity) const
 {
 	

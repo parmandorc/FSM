@@ -19,12 +19,19 @@ public:
 	
 	void Enter(const Entity& pEntity) const;
 	void Exit(const Entity& pEntity) const;
+	
+	void Resume(const Entity& pEntity) const;
+	void Pause(const Entity& pEntity) const;
 
 	virtual void Update(const Entity& pEntity) const;
 	
 protected:
 	virtual void OnEnter(const Entity& pEntity) const;
 	virtual void OnExit(const Entity& pEntity) const;
+	
+	// If these are not overridden, the normal transition callbacks will be executed by default
+	virtual void OnResume(const Entity& pEntity) const;
+	virtual void OnPause(const Entity& pEntity) const;
 	
 private:
 	std::string mName;

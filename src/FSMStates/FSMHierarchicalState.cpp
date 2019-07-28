@@ -27,6 +27,16 @@ void FSMHierarchicalState::OnExit(const Entity& pEntity) const
 	mFSM->Deactivate(pEntity);
 }
 
+void FSMHierarchicalState::OnResume(const Entity& pEntity) const
+{
+	mFSM->Resume(pEntity);
+}
+
+void FSMHierarchicalState::OnPause(const Entity &pEntity) const
+{
+	mFSM->Pause(pEntity);
+}
+
 void FSMHierarchicalState::Update(const Entity& pEntity) const
 {
 	mFSM->Update(pEntity);

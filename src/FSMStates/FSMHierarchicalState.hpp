@@ -19,6 +19,8 @@ public:
 protected:
 	void OnEnter(const Entity& pEntity) const override;
 	void OnExit(const Entity& pEntity) const override;
+	void OnResume(const Entity& pEntity) const override;
+	void OnPause(const Entity& pEntity) const override;
 	
 private:
 	FSM* mFSM;
