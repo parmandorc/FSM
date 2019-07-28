@@ -48,3 +48,22 @@ void FSMPatrolState::OnExit(const Entity &pEntity) const
 	// 		to stop following the current waypoint in case that happens.
 	pEntity.GetBlackboard().Clear("CurrentWaypoint");
 }
+
+void FSMPatrolState::OnResume(const Entity& pEntity) const
+{
+	int currentWaypointIndex = -1;
+	if (pEntity.GetBlackboard().Get("CurrentWaypoint", currentWaypointIndex))
+	{
+		std::cout << "Entity with ID: " << pEntity.GetID() << " continued patrolling towards waypoint '" << (char)currentWaypointIndex << "'." << std::endl;
+	}
+	else
+	{
+		// Fall back to choosing a new random waypoint if current waypoint is not available
+		OnEnter(pEntity);
+	}
+}
+
+void FSMPatrolState::OnPause(const Entity& pEntity) const
+{
+	// Do not clear the current waypoint so that the path to it can be resumed
+}
