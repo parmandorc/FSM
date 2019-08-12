@@ -7,7 +7,7 @@ The goals of this implementation are as follows:
 - Facilitate code reuse
 - Be scalable with number of agents
 
-This project focuses on the aspects related to the AI architecture. Consequently, the supporting game systems needed by the FSM have been kept to a minimum. This includes the output of the system being in the form of a text-based console log, in order to avoid the complexities of a full game environment and rendering pipeline.
+This project focuses on the aspects related to the AI architecture. Consequently, the supporting game systems needed by the FSM architecture and by the behaviors have been kept to a minimum, with some of the logic being simply simulated by random chance (instead of implementing full game systems for elements such as in-world positions, health and resources, or raycasts for line of sight checks). This also includes the output of the system being in the form of a text-based console log, in order to avoid the complexities of a full game environment and rendering pipeline.
 
 ### State design pattern
 
