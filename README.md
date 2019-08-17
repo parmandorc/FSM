@@ -47,7 +47,7 @@ One problem with the current implementation, however, is that it would currently
 
 One limitation of regular FSMs is a lack of memory, that is, the inability to know the state that was previously running before the current one. A typical solution to this problem is the use of Stack-based FSMs (SFSMs), where the pointer to the current state is replaced with a stack of states. This introduces push-pop semantics to the transition logic, and makes it possible for the state machine to return to the previously running state after the current one is popped from the stack, thus resuming previous behavior.
 
-In addition to this, this implementation offers transition callbacks that are specific to stack-based transitions, in order for states to fully benefit from the stack semantics and be able to resume previous behavior. For this, state classes can override the `OnResume` and `OnPause` methods, which act as stack-specific equivalents of the `OnEnter` and `OnExit` methods, respectively. Note that if the stack-specific methods are not overridden, the regular transiFixetion callbacks will be called by default.
+In addition to this, this implementation offers transition callbacks that are specific to stack-based transitions, in order for states to fully benefit from the stack semantics and be able to resume previous behavior. For this, state classes can override the `OnResume` and `OnPause` methods, which act as stack-specific equivalents of the `OnEnter` and `OnExit` methods, respectively. Note that if the stack-specific methods are not overridden, the regular transition callbacks will be called by default.
 
 ### Sample FSM
 
