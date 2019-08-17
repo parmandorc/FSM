@@ -41,7 +41,7 @@ For this, it must be possible to use FSMs as states themselves in a parent FSM, 
 
 Note that in other implementations that do not separate state and transition logic, HFSMs are often accomplished by making all the origin states classes inherit from a parent state class where the common transitions are defined. Nevertheless, this increases the complexity of the code, especially with hierarchies that are multiple levels deep (which would translate to multiple levels of inheritance).
 
-One problem with the current implementation, however, is that it would currently be possible to define a transition to a parent FSM (or one that is higher in the hierarchy), which would introduce a logic infinite loop. This could be solved relatively easily by introducing a validation step that checks against cycles in the transtion hierarchy.
+One problem with the current implementation, however, is that it would currently be possible to define a transition to a parent FSM (or one that is higher in the hierarchy), which would introduce a logic infinite loop. This could be solved relatively easily by introducing a validation step that checks against cycles in the transition hierarchy.
 
 ### Stack-based Finite State Machines
 
