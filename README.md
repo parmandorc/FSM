@@ -42,3 +42,9 @@ For this, it must be possible to use FSMs as states themselves in a parent FSM, 
 Note that in other implementations that do not separate state and transition logic, HFSMs are often accomplished by making all the origin states classes inherit from a parent state class where the common transitions are defined. Nevertheless, this increases the complexity of the code, especially with hierarchies that are multiple levels deep (which would translate to multiple levels of inheritance).
 
 One problem with the current implementation, however, is that it would currently be possible to define a transition to a parent FSM (or one that is higher in the hierarchy), which would introduce a logic infinite loop. This could be solved relatively easily by introducing a validation step that checks against cycles in the transtion hierarchy.
+
+### Stack-based Finite State Machines
+
+One limitation of regular FSMs is a lack of memory, that is, the inability to know the state that was previously running before the current one. A typical solution to this problem is the use of Stack-based FSMs (SFSMs), where the pointer to the current state is replaced with a stack of states. This introduces push-pop semantics to the transition logic, and makes it possible for the state machine to return to the previously running state after the current one is popped from the stack, thus resuming previous behavior.
+
+In addition to this, this implementation offers transition callbacks that are specific to stack-based transitions, in order for states to fully benefit from the stack semantics and be able to resume previous behavior. For this, state classes can override the `OnResume` and `OnPause` methods, which act as stack-specific equivalents of the `OnEnter` and `OnExit` methods, respectively. Note that if the stack-specific methods are not overridden, the regular transtion callbacks will be called by default.
